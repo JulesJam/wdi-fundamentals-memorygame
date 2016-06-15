@@ -40,6 +40,32 @@ a{
 a:hover{
 	background-color: #ee5f3c;
 }
+
+#score{margin:5% 75% -5% 25%;
+	font-size: 2em;
+	padding: 1em;
+	color:#d72604;
+	width: 100px;
+
+
+}
+
+.button{
+	margin:-5% 75% 10% 25%;
+	padding:10px;
+	width:90px;
+	height:30px;
+	background-color: #66b8ff;
+	border-radius: 3px;
+	color:#000000;
+
+
+}
+
+.button:hover{
+	background-color: #8ffb98;
+	color:#d72604;
+}
 .icon{
 	margin-top:0.9em;
 	width: 1.5em;
@@ -57,6 +83,21 @@ a:hover{
 	
 }
 .card{
+	display:inline-block;
+	height: 279px;
+	width: 200px;
+	margin:8%;
+	background-color: #000000;
+	border-style: solid;
+	border-width: 3px;
+	border-color: #000000;
+	border-radius: 10px;
+	float:left;
+	background-image: 'images/Back.png'
+	
+}
+
+.flippeds{
 	display:inline-block;
 	height: 200px;
 	width: 150px;
