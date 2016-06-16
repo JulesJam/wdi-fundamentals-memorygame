@@ -37,6 +37,8 @@ function updateLives(numberOfClicks){
 
 }
 
+//chnages cards randomly after each game
+
 function generateRandomSequence (numberOfCards, numberOfClicks){
 	 if (numberOfClicks >0){
 	 	alert('Shuffling');}
@@ -52,7 +54,7 @@ function generateRandomSequence (numberOfCards, numberOfClicks){
 }
 
 
-
+//chnages board width depending on number of cards
 
 function setboardWidth(numberOfCards){
 	
