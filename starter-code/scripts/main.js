@@ -4,6 +4,7 @@ cardsInPlay = [];
 var score = 0;
 var numberOfClicks = 0;
 var numberOfCards = 6;
+var numberOfLives = ((numberOfCards*2)-1);
 
 
 var gameBoard = document.getElementById ('game-board');
@@ -13,6 +14,7 @@ function on_load(score){
 	var playAgain = document.getElementById('button');
 	playAgain.addEventListener('click',reStart);
 	updateScore(score);
+	updateLives(numberOfLives);
 
 
 	}
@@ -22,6 +24,15 @@ function updateScore (score){
 	var scoreDisplay = document.getElementById('score');
 	
 	scoreDisplay.innerHTML = 'Score '+ score;
+
+
+}
+
+function updateLives(numberOfClicks){
+
+	var livesDisplay = document.getElementById('lives');
+	
+	livesDisplay.innerHTML = 'Lives '+numberOfLives ;
 
 
 }
@@ -45,12 +56,11 @@ function generateRandomSequence (numberOfCards, numberOfClicks){
 
 function setboardWidth(numberOfCards){
 	
-
+//adjusts width of bard subject to number of cards chosen
 	var boardWidth =document.getElementById('game-board');
 	var requiredWidth = (((numberOfCards/2) * 144));
 	var requiredWidthStr = ''+requiredWidth+'px';
-	boardWidth.style.width=requiredWidthStr;
-	console.log(requiredWidthStr);	
+	boardWidth.style.width=requiredWidthStr;	
 	var width = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
 	var reqdMargin = (width - requiredWidth)/2;
 	var reqdMarginStr ='5px '+reqdMargin+'px';
@@ -59,6 +69,8 @@ function setboardWidth(numberOfCards){
 }
 
 function setboardHeight(numberOfCards){
+
+	//changes the game-board height depending on number of rows of cards 
 	var boardHeight =document.getElementById('game-board');
 	var requiredHeight = (((numberOfCards/2) * 195));
 	var requiredHeightStr = ''+requiredHeight+'px';
@@ -68,6 +80,7 @@ function setboardHeight(numberOfCards){
 
 var createBoard = function(numberOfCards, numberOfClicks){
 	setboardWidth(numberOfCards);
+	//maximum cards in a row is 3
 	if (numberOfCards>6){
 	setboardHeight(numberOfCards);
 	}
@@ -97,7 +110,7 @@ var clearCard = function(){
 	};
 
 
-var reStart = function(score){
+var reStart = function(){
 
 	alert('new game')
 	 var cardClass =document.getElementsByClassName('card');
@@ -105,19 +118,14 @@ var reStart = function(score){
 	 cardClass[i].innerHTML = '<img src="images/Back.png" alt="Back" />';
 	}
 
-	var score=0;
+	score=0;
+	numberOfLives=((numberOfCards*2)-1);
 	updateScore(score);
+	updateLives(numberOfLives);
 	
 	};
 
-function endOfGame(numberOfClicks, numberOfCards){
-		var endOfPlay = ((numberOfCards*2)-2);
-		
-   		if(numberOfClicks > 6){
-   
-    	alert('Game Over');}
 
-}
 
 
 function isMatch () {
@@ -126,6 +134,8 @@ function isMatch () {
 		{
 		alert('You found a match');
 		score=score+1;
+		numberOfLives=numberOfLives-1;
+		updateLives();
 		updateScore(score);
 		setTimeout(clearCard(),10000);
 		
@@ -133,6 +143,8 @@ function isMatch () {
 	else {
 		alert('Sorry Try Again');
 		setTimeout(clearCard(),10000);
+		updateLives();
+		numberOfLives=numberOfLives-1;
 		}
 		
 		
@@ -147,22 +159,14 @@ function isMatch () {
 
 
  
-function isTwoCards(clickCount, numberOfClicks, numberOfCards) {
+function isTwoCards() {
 
   // add card to array of cards in play
   // 'this' hasn't been covered in this prework, but
   // for now, just know it gives you access to the card the user clicked on
   
+ //have to fix reset on number of lives still
  
- console.log (numberOfClicks);
-
- numberOfClicks=numberOfClicks+5;
-
-
- if(numberOfClicks>6){
- 	alert('end');
- }
-		
    		
 
   var cardType = this.getAttribute('data-card');
@@ -193,7 +197,17 @@ function isTwoCards(clickCount, numberOfClicks, numberOfCards) {
 
 
   }
+console.log (numberOfClicks);
 
+ numberOfClicks+=1;
+
+
+ if(numberOfClicks>(numberOfCards*2)-1){
+ 	alert('Game Over');
+ 	numberOfClicks=0;
+ 	reStart();
+ }
+		
  
 
 }
