@@ -24,6 +24,7 @@ footer {
 
 p{
 	text-align: center;
+	margin: 0 25%;
 }
 span{
 	color: #96bdae;
@@ -41,23 +42,36 @@ a:hover{
 	background-color: #ee5f3c;
 }
 
-#score{margin:5% 75% -5% 25%;
-	font-size: 2em;
-	padding: 1em;
-	color:#d72604;
+section {
+	margin: 10px auto;
+	width:400px;
+	height: 78px;
+}
+
+#score{
+	float:left;
+	margin: 10px 10px 10px 50px;
+	font-family:"desdemona", 'sans-serif';
+	font-size: 1em;
+	background-color: #6b6b6b;
+	padding: 20px;
+	color:#ffffff;
 	width: 100px;
+	border-radius:5px;
 
 
 }
 
 .button{
-	margin:-5% 75% 10% 25%;
-	padding:10px;
-	width:90px;
-	height:30px;
-	background-color: #66b8ff;
-	border-radius: 3px;
-	color:#000000;
+	float:left;
+	margin: 10px 0px 10px 0px;
+	font-family:"desdemona", 'sans-serif';
+	font-size: 1em;
+	background-color: #6b6b6b;
+	padding: 20px;
+	color:#ffffff;
+	width: 100px;
+	border-radius:5px;
 
 
 }
@@ -76,17 +90,17 @@ a:hover{
 .board{
 
 	display: inline-block;
-	height: 50%;
-	width: 50%;
-	margin:8%;
+	height: 384px;
+	width:288px;
+	margin:0 auto;
 	
 	
 }
 .card{
 	display:inline-block;
-	height: 279px;
-	width: 200px;
-	margin:8%;
+	height: 179px;
+	width: 128px;
+	margin:5px 5px 5px 5px;
 	background-color: #000000;
 	border-style: solid;
 	border-width: 3px;

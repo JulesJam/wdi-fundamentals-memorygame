@@ -1,4 +1,5 @@
-cards = ['queen','queen','king','king'];
+cardMaster = ['queen','king'];
+cards = [];
 cardsInPlay = [];
 var score = 0;
 
@@ -22,9 +23,55 @@ function updateScore (score){
 
 }
 
+function generateRandomSequence (numberOfCards){
+	alert('Shuffling');
+	cards = [];
+	for(i=0; i <numberOfCards; i+=1){
+		var randomPick = Math.floor((Math.random() * 2) +0);
+		cards.push (cardMaster[randomPick]);
+		
+
+	}
+
+
+}
+
+
+
+
+function setboardWidth(numberOfCards){
+	
+
+	var boardWidth =document.getElementById('game-board');
+	var requiredWidth = (((numberOfCards/2) * 144));
+	var requiredWidthStr = ''+requiredWidth+'px';
+	boardWidth.style.width=requiredWidthStr;
+	console.log(requiredWidthStr);	
+	var width = window.innerWidth
+	|| document.documentElement.clientWidth
+	|| document.body.clientWidth;
+	var reqdMargin = (width - requiredWidth)/2;
+	var reqdMarginStr ='5px '+reqdMargin+'px';
+	boardWidth.style.margin=reqdMarginStr;
+
+}
+
+function setboardHeight(numberOfCards){
+	var boardHeight =document.getElementById('game-board');
+	var requiredHeight = (((numberOfCards/2) * 195));
+	var requiredHeightStr = ''+requiredHeight+'px';
+	boardHeight.style.height=requiredHeightStr;
+	console.log(requiredHeightStr);
+}
 
 var createBoard = function(numberOfCards){
-	
+	setboardWidth(numberOfCards);
+	if (numberOfCards>6){
+	setboardHeight(numberOfCards);
+	}
+
+
+	generateRandomSequence(numberOfCards);
 	for (i=0; i <numberOfCards; i+=1){
 	var createCardDiv =	document.createElement('div');
 	createCardDiv.className = "card";
@@ -33,15 +80,18 @@ var createBoard = function(numberOfCards){
 	createCardDiv.innerHTML = '<img src="images/Back.png" alt="Back" />';
 	gameBoard.appendChild(createCardDiv);
 	}
+	
 	on_load(score);
+	
 	};
 
-var clearCard = function(){
-	
+	var clearCard = function(){
+	generateRandomSequence();
 	 var cardClass =document.getElementsByClassName('card');
 	for (i=0; i < cards.length; i+=1){
 	 cardClass[i].innerHTML = '<img src="images/Back.png" alt="Back" />';
 	}
+	
 };
 
 
@@ -115,6 +165,6 @@ function isTwoCards(clickCount) {
 
 
 
-createBoard(4);
+createBoard(6);
 
 
