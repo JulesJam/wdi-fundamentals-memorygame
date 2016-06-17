@@ -5,10 +5,13 @@ var score = 0;
 var numberOfClicks = 0;
 var numberOfCards = 6;
 var numberOfLives = ((numberOfCards*2)-1);
-
-
+var numberOfRows = (Math.ceil(((numberOfCards/3)-2))+2);
 var gameBoard = document.getElementById ('game-board');
+var lastCardClikedID = null;
 
+
+
+//resets the game if player clicks the play again button
 function on_load(score){
  	
 	var playAgain = document.getElementById('button');
@@ -19,6 +22,8 @@ function on_load(score){
 
 	}
 
+
+//updates the displayed score if a succesful match is found
 function updateScore (score){
 
 	var scoreDisplay = document.getElementById('score');
@@ -26,8 +31,9 @@ function updateScore (score){
 	scoreDisplay.innerHTML = 'Score '+ score;
 
 
-}
+	}
 
+//reduces the number of lives so that game doesn't go on for ever!
 function updateLives(numberOfClicks){
 
 	var livesDisplay = document.getElementById('lives');
@@ -37,7 +43,7 @@ function updateLives(numberOfClicks){
 
 }
 
-//chnages cards randomly after each game
+//changesges cards randomly after each game so the player does not know where cards were from last game
 
 function generateRandomSequence (numberOfCards, numberOfClicks){
 	 if (numberOfClicks >0){
@@ -49,18 +55,20 @@ function generateRandomSequence (numberOfCards, numberOfClicks){
 		
 
 	}
+	}
 
 
-}
+//changes board width depending on number of cards
 
-
-//chnages board width depending on number of cards
-
-function setboardWidth(numberOfCards){
+function setboardWidth(numberOfCards, numberOfRows){
 	
-//adjusts width of bard subject to number of cards chosen
+//adjusts width of board subject to number of cards chosen in code - ***need to make this an input function in future***
+		if(numberOfCards<5){
+			columns=2;}
+		else{columns = 3;}
+	
 	var boardWidth =document.getElementById('game-board');
-	var requiredWidth = (((numberOfCards/2) * 144));
+	var requiredWidth = (columns* 144);
 	var requiredWidthStr = ''+requiredWidth+'px';
 	boardWidth.style.width=requiredWidthStr;	
 	var width = window.innerWidth|| document.documentElement.clientWidth|| document.body.clientWidth;
@@ -68,30 +76,36 @@ function setboardWidth(numberOfCards){
 	var reqdMarginStr ='5px '+reqdMargin+'px';
 	boardWidth.style.margin=reqdMarginStr;
 
-}
+	}
 
-function setboardHeight(numberOfCards){
+
+//changes the board height depending on number of rows
+
+function setboardHeight(numberOfRows){
 
 	//changes the game-board height depending on number of rows of cards 
 	var boardHeight =document.getElementById('game-board');
-	var requiredHeight = (((numberOfCards/2) * 195));
+	var requiredHeight = (numberOfRows * 195);
 	var requiredHeightStr = ''+requiredHeight+'px';
 	boardHeight.style.height=requiredHeightStr;
-	console.log(requiredHeightStr);
-}
+	
+	}
 
-var createBoard = function(numberOfCards, numberOfClicks){
+//builds the board including adding ID' to each card so that the card cliked is know to prevent user just clicking same card twice
+
+var createBoard = function(numberOfCards, numberOfClicks,numberOfRows){
 	setboardWidth(numberOfCards);
 	//maximum cards in a row is 3
-	if (numberOfCards>6){
-	setboardHeight(numberOfCards);
-	}
+	
+	setboardHeight(numberOfRows);
+
 
 
 	generateRandomSequence(numberOfCards);
 	for (i=0; i <numberOfCards; i+=1){
 	var createCardDiv =	document.createElement('div');
 	createCardDiv.className = "card";
+	createCardDiv.id = i;
 	createCardDiv.setAttribute('data-card',cards[i]);
 	createCardDiv.addEventListener('click', isTwoCards);
 	createCardDiv.innerHTML = '<img src="images/Back.png" alt="Back" />';
@@ -102,6 +116,8 @@ var createBoard = function(numberOfCards, numberOfClicks){
 	
 	};
 
+//this replaces card faces with card backs image	
+
 var clearCard = function(){
 
 	 var cardClass =document.getElementsByClassName('card');
@@ -111,7 +127,7 @@ var clearCard = function(){
 	
 	};
 
-
+//this clears all cards and reset score an lives to 0
 var reStart = function(){
 
 	alert('new game')
@@ -128,7 +144,7 @@ var reStart = function(){
 	};
 
 
-
+//test to see if two clicked cards are the same card - a cheat - or if different checks if they are a match 
 
 function isMatch () {
 
@@ -145,8 +161,9 @@ function isMatch () {
 	else {
 		alert('Sorry Try Again');
 		setTimeout(clearCard(),10000);
-		updateLives();
 		numberOfLives=numberOfLives-1;
+		updateLives();
+		
 		}
 		
 		
@@ -158,7 +175,7 @@ function isMatch () {
 
 
 	
-
+//checks to see if two cards have been played after a click
 
  
 function isTwoCards() {
@@ -172,6 +189,15 @@ function isTwoCards() {
    		
 
   var cardType = this.getAttribute('data-card');
+  var cardId = this.getAttribute('id');
+
+
+  if (lastCardClikedID==cardId){
+  	alert('Naughty you clicked the same card twice');
+  	lastCardClikedID=cardId;
+  }	
+
+  else {
  
  	 	if (cardType==='king'){
 	this.innerHTML = '<img src="images/KDiamonds 12.png" alt="King of Diamonds" title ="king"/>';}
@@ -199,8 +225,8 @@ function isTwoCards() {
 
 
   }
-console.log (numberOfClicks);
 
+  lastCardClikedID=cardId;
  numberOfClicks+=1;
 
 
@@ -210,12 +236,12 @@ console.log (numberOfClicks);
  	reStart();
  }
 		
- 
+ }
 
 }
 
 
-
+//start everything
 
 createBoard(numberOfCards);
 
